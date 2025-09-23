@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSUInteger index;     ///< line index
 @property (nonatomic) NSUInteger row;       ///< line row
-@property (nullable, nonatomic, strong) NSArray<NSArray<YYTextRunGlyphRange *> *> *verticalRotateRange; ///< Run rotate range
+@property (nullable, nonatomic, copy) NSArray<NSArray<YYTextRunGlyphRange *> *> *verticalRotateRange; ///< Run rotate range
 
 @property (nonatomic, readonly) CTLineRef CTLine;   ///< CoreText line
 @property (nonatomic, readonly) NSRange range;      ///< string range

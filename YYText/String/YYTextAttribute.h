@@ -274,7 +274,7 @@ typedef void(^YYTextAction)(UIView *containerView, NSAttributedString *text, NSR
 @property (nullable, nonatomic, strong) id content;             ///< Supported type: UIImage, UIView, CALayer
 @property (nonatomic) UIViewContentMode contentMode;            ///< Content display mode.
 @property (nonatomic) UIEdgeInsets contentInsets;               ///< The insets when drawing content.
-@property (nullable, nonatomic, strong) NSDictionary *userInfo; ///< The user information dictionary.
+@property (nullable, nonatomic, copy) NSDictionary *userInfo; ///< The user information dictionary.
 @end
 
 

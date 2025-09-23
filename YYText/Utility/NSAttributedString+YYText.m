@@ -1390,7 +1390,8 @@ return style. _attr_;
                  (id)kCTRunDelegateAttributeName,
                  YYTextBackedStringAttributeName,
                  YYTextBindingAttributeName,
-                 YYTextAttachmentAttributeName].mutableCopy;
+                 YYTextAttachmentAttributeName,
+                 NSLinkAttributeName].mutableCopy;// 王昌阳 修改 添加了 NSLinkAttributeName
         if (kiOS8Later) {
             [keys addObject:(id)kCTRubyAnnotationAttributeName];
         }

@@ -64,7 +64,7 @@ extern const CGSize YYTextContainerMaxSize;
 /// Creates a container with the specified size and insets. @param size The size. @param insets The text insets.
 + (instancetype)containerWithSize:(CGSize)size insets:(UIEdgeInsets)insets;
 
-/// Creates a container with the specified path. @param path The path.
+/// Creates a container with the specified path. @param size The path.
 + (instancetype)containerWithPath:(nullable UIBezierPath *)path;
 
 /// The constrained size. (if the size is larger than YYTextContainerMaxSize, it will be clipped)
@@ -230,15 +230,15 @@ extern const CGSize YYTextContainerMaxSize;
 ///< CTFrame
 @property (nonatomic, readonly) CTFrameRef frame;
 ///< Array of `YYTextLine`, no truncated
-@property (nonatomic, strong, readonly) NSArray<YYTextLine *> *lines;
+@property (nonatomic, copy, readonly) NSArray<YYTextLine *> *lines;
 ///< YYTextLine with truncated token, or nil
 @property (nullable, nonatomic, strong, readonly) YYTextLine *truncatedLine;
 ///< Array of `YYTextAttachment`
-@property (nullable, nonatomic, strong, readonly) NSArray<YYTextAttachment *> *attachments;
+@property (nullable, nonatomic, copy, readonly) NSArray<YYTextAttachment *> *attachments;
 ///< Array of NSRange(wrapped by NSValue) in text
-@property (nullable, nonatomic, strong, readonly) NSArray<NSValue *> *attachmentRanges;
+@property (nullable, nonatomic, copy, readonly) NSArray<NSValue *> *attachmentRanges;
 ///< Array of CGRect(wrapped by NSValue) in container
-@property (nullable, nonatomic, strong, readonly) NSArray<NSValue *> *attachmentRects;
+@property (nullable, nonatomic, copy, readonly) NSArray<NSValue *> *attachmentRects;
 ///< Set of Attachment (UIImage/UIView/CALayer)
 @property (nullable, nonatomic, strong, readonly) NSSet *attachmentContentsSet;
 ///< Number of rows

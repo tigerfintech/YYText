@@ -5,15 +5,17 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.authors      = { 'ibireme' => 'ibireme@gmail.com' }
   s.social_media_url = 'http://blog.ibireme.com'
-  s.homepage     = 'https://github.com/ibireme/YYText'
+  s.homepage     = 'https://github.com/tigerfintech/YYText'
   s.platform     = :ios, '6.0'
   s.ios.deployment_target = '6.0'
-  s.source       = { :git => 'https://github.com/ibireme/YYText.git', :tag => s.version.to_s }
+  s.source       = { :git => 'https://github.com/tigerfintech/YYText.git', :tag => s.version.to_s }
   
   s.requires_arc = true
   s.source_files = 'YYText/**/*.{h,m}'
   s.public_header_files = 'YYText/**/*.{h}'
   
   s.frameworks = 'UIKit', 'CoreFoundation','CoreText', 'QuartzCore', 'Accelerate', 'MobileCoreServices'
+  s.dependency 'TBBaseKit'
+
 
 end

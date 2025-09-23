@@ -22,7 +22,7 @@
 #import "NSAttributedString+YYText.h"
 #import "UIPasteboard+YYText.h"
 #import "UIView+YYText.h"
-
+#import <TBBaseKit/TBBaseKitUtil.h>
 
 static double _YYDeviceSystemVersion() {
     static double version;
@@ -1462,13 +1462,13 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                     _selectedTextRange = [YYTextRange rangeWithRange:newRange];
                 }
             }
-            _selectedTextRange = [self _correctedTextRange:_selectedTextRange];
             if (notify) [_inputDelegate selectionDidChange:self];
         }
     }
     if (notify) [_inputDelegate textWillChange:self];
     NSRange newRange = NSMakeRange(range.asRange.location, text.length);
     [_innerText replaceCharactersInRange:range.asRange withString:text];
+    _selectedTextRange = [self _correctedTextRange:_selectedTextRange];
     [_innerText yy_removeDiscontinuousAttributesInRange:newRange];
     if (notify) [_inputDelegate textDidChange:self];
 }
@@ -1577,7 +1577,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 - (UIViewController *)_getRootViewController {
     UIViewController *ctrl = nil;
     UIApplication *app = YYTextSharedApplication();
-    if (!ctrl) ctrl = app.keyWindow.rootViewController;
+    if (!ctrl) ctrl = TBBaseKitUtil.tbGetKeyWindow.rootViewController;
     if (!ctrl) ctrl = [app.windows.firstObject rootViewController];
     if (!ctrl) ctrl = self.yy_viewController;
     if (!ctrl) return nil;
@@ -2171,7 +2171,13 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     [_inputDelegate textWillChange:self];
      _innerText = text;
     [self _parseText];
-    _selectedTextRange = [YYTextRange rangeWithRange:NSMakeRange(0, _innerText.length)];
+//bug fix start ,修改YY代码
+    if(@available(iOS 13, *)){
+        _selectedTextRange = [YYTextRange rangeWithRange:NSMakeRange(_innerText.length, 0)];
+    }else{
+        _selectedTextRange = [YYTextRange rangeWithRange:NSMakeRange(0, _innerText.length)];
+    }
+//bug fix end
     [_inputDelegate textDidChange:self];
     [_inputDelegate selectionDidChange:self];
     
@@ -2187,6 +2193,11 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     if (self.isFirstResponder) {
         [self _scrollRangeToVisible:_selectedTextRange];
     }
+//bug fix start,增加一行代码
+    if(@available(iOS 13, *)){
+        [self _endTouchTracking];
+    }
+//bug fix end
     
     if ([self.delegate respondsToSelector:@selector(textViewDidChange:)]) {
         [self.delegate textViewDidChange:self];
@@ -2197,6 +2208,19 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         [self _resetUndoAndRedoStack];
     }
 }
+
+//bug fix start,增加了iOS13兼容
+
+- (void)addSubview:(UIView *)view
+{
+    if([view isKindOfClass:NSClassFromString(@"UITextSelectionView")]){
+        view.hidden = YES;
+        view.backgroundColor = [UIColor clearColor];
+    }
+    [super addSubview:view];
+}
+
+//bug fix end
 
 - (void)setTextVerticalAlignment:(YYTextVerticalAlignment)textVerticalAlignment {
     if (_textVerticalAlignment == textVerticalAlignment) return;
@@ -3409,6 +3433,14 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
             if (text.length == 0) {
                 NSMutableDictionary *attrs = [_innerText yy_attributesAtIndex:0].mutableCopy;
                 [attrs removeObjectsForKeys:[NSMutableAttributedString yy_allDiscontinuousAttributeKeys]];
+// 王昌阳 修改 开始
+                if ([attrs objectForKey:NSForegroundColorAttributeName] && self.textColor) {
+                    [attrs setObject:self.textColor forKey:NSForegroundColorAttributeName];
+                }
+                if ([attrs objectForKey:(id)kCTForegroundColorAttributeName] && self.textColor) {
+                    [attrs setObject:(id)[self textColor].CGColor forKey:(id)kCTForegroundColorAttributeName];
+                }
+// 王昌阳 修改 结束
                 _typingAttributesHolder.yy_attributes = attrs;
             }
         }

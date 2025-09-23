@@ -13,7 +13,7 @@
 #import "YYTextKeyboardManager.h"
 #import "YYTextUtilities.h"
 #import "UIView+YYText.h"
-
+#import <TBBaseKit/TBBaseKitUtil.h>
 
 @implementation YYTextEffectWindow
 
@@ -73,7 +73,7 @@
     if (!app) return;
     
     UIWindow *top = app.windows.lastObject;
-    UIWindow *key = app.keyWindow;
+    UIWindow *key = TBBaseKitUtil.tbGetKeyWindow;
     if (key && key.windowLevel > top.windowLevel) top = key;
     if (top == self) return;
     self.windowLevel = top.windowLevel + 1;
@@ -245,6 +245,9 @@
             dispatch_once(&onceToken, ^{
                 CGRect rect = mag.bounds;
                 rect.origin = CGPointZero;
+                if (rect.size.width == 0 || rect.size.height == 0) {
+                    return;
+                }
                 UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
                 CGContextRef context = UIGraphicsGetCurrentContext();
                 [[UIColor colorWithWhite:1 alpha:0.8] set];
@@ -258,7 +261,9 @@
         }
         return rotation;
     }
-    
+    if (captureRect.size.width == 0 || captureRect.size.height == 0) {
+        return rotation;
+    }
     UIGraphicsBeginImageContextWithOptions(captureRect.size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     if (!context) return rotation;
@@ -269,7 +274,7 @@
     CGContextTranslateCTM(context, tp.x - captureCenter.x, tp.y - captureCenter.y);
     
     NSMutableArray *windows = app.windows.mutableCopy;
-    UIWindow *keyWindow = app.keyWindow;
+    UIWindow *keyWindow =TBBaseKitUtil.tbGetKeyWindow;
     if (![windows containsObject:keyWindow]) [windows addObject:keyWindow];
     [windows sortUsingComparator:^NSComparisonResult(UIWindow *w1, UIWindow *w2) {
         if (w1.windowLevel < w2.windowLevel) return NSOrderedAscending;

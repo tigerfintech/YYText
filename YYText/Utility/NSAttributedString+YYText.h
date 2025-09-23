@@ -228,7 +228,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nullable, nonatomic, strong, readonly) NSString *yy_textEffect;
+@property (nullable, nonatomic, copy, readonly) NSString *yy_textEffect;
 - (nullable NSString *)yy_textEffectAtIndex:(NSUInteger)index;
 
 /**
@@ -281,7 +281,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Get this property returns the first character's attribute.
  @since CoreText:7.0  YYText:7.0
  */
-@property (nullable, nonatomic, strong, readonly) NSString *yy_language;
+@property (nullable, nonatomic, copy, readonly) NSString *yy_language;
 - (nullable NSString *)yy_languageAtIndex:(NSUInteger)index;
 
 /**
@@ -291,7 +291,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:7.0  YYText:6.0
  */
-@property (nullable, nonatomic, strong, readonly) NSArray<NSNumber *> *yy_writingDirection;
+@property (nullable, nonatomic, copy, readonly) NSArray<NSNumber *> *yy_writingDirection;
 - (nullable NSArray<NSNumber *> *)yy_writingDirectionAtIndex:(NSUInteger)index;
 
 /**
@@ -641,7 +641,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param content        The attachment (UIImage/UIView/CALayer).
  @param contentMode    The attachment's content mode in attachment holder
  @param attachmentSize The attachment holder's size in text layout.
- @param font           The attachment will align to this font.
+ @param fontSize       The attachment will align to this font.
  @param alignment      The attachment holder's alignment to text line.
  
  @return An attributed string, or nil if an error occurs.
@@ -902,7 +902,7 @@ NS_ASSUME_NONNULL_BEGIN
              Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nullable, nonatomic, strong, readwrite) NSString *yy_textEffect;
+@property (nullable, nonatomic, copy, readwrite) NSString *yy_textEffect;
 - (void)yy_setTextEffect:(nullable NSString *)textEffect range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
@@ -960,7 +960,7 @@ NS_ASSUME_NONNULL_BEGIN
              Get this property returns the first character's attribute.
  @since CoreText:7.0  YYText:7.0
  */
-@property (nullable, nonatomic, strong, readwrite) NSString *yy_language;
+@property (nullable, nonatomic, copy, readwrite) NSString *yy_language;
 - (void)yy_setLanguage:(nullable NSString *)language range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
@@ -971,7 +971,7 @@ NS_ASSUME_NONNULL_BEGIN
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:7.0  YYText:6.0
  */
-@property (nullable, nonatomic, strong, readwrite) NSArray<NSNumber *> *yy_writingDirection;
+@property (nullable, nonatomic, copy, readwrite) NSArray<NSNumber *> *yy_writingDirection;
 - (void)yy_setWritingDirection:(nullable NSArray<NSNumber *> *)writingDirection range:(NSRange)range;
 
 /**
