@@ -22,7 +22,7 @@
 #import "NSAttributedString+YYText.h"
 #import "UIPasteboard+YYText.h"
 #import "UIView+YYText.h"
-#import <TBBaseKit/TBBaseKitUtil.h>
+#import "YYTextEffectWindow.h"
 
 static double _YYDeviceSystemVersion() {
     static double version;
@@ -1577,7 +1577,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 - (UIViewController *)_getRootViewController {
     UIViewController *ctrl = nil;
     UIApplication *app = YYTextSharedApplication();
-    if (!ctrl) ctrl = TBBaseKitUtil.tbGetKeyWindow.rootViewController;
+    if (!ctrl) ctrl = [YYTextEffectWindow tbGetKeyWindow].rootViewController;
     if (!ctrl) ctrl = [app.windows.firstObject rootViewController];
     if (!ctrl) ctrl = self.yy_viewController;
     if (!ctrl) return nil;

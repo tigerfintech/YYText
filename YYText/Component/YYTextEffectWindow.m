@@ -13,7 +13,6 @@
 #import "YYTextKeyboardManager.h"
 #import "YYTextUtilities.h"
 #import "UIView+YYText.h"
-#import <TBBaseKit/TBBaseKitUtil.h>
 
 @implementation YYTextEffectWindow
 
@@ -73,7 +72,7 @@
     if (!app) return;
     
     UIWindow *top = app.windows.lastObject;
-    UIWindow *key = TBBaseKitUtil.tbGetKeyWindow;
+    UIWindow *key = [YYTextEffectWindow tbGetKeyWindow];
     if (key && key.windowLevel > top.windowLevel) top = key;
     if (top == self) return;
     self.windowLevel = top.windowLevel + 1;
@@ -274,7 +273,7 @@
     CGContextTranslateCTM(context, tp.x - captureCenter.x, tp.y - captureCenter.y);
     
     NSMutableArray *windows = app.windows.mutableCopy;
-    UIWindow *keyWindow =TBBaseKitUtil.tbGetKeyWindow;
+    UIWindow *keyWindow =[YYTextEffectWindow tbGetKeyWindow];
     if (![windows containsObject:keyWindow]) [windows addObject:keyWindow];
     [windows sortUsingComparator:^NSComparisonResult(UIWindow *w1, UIWindow *w2) {
         if (w1.windowLevel < w2.windowLevel) return NSOrderedAscending;
@@ -429,6 +428,25 @@
     if (!selection) return;
     [selection.startGrabber.dot.mirror removeFromSuperview];
     [selection.endGrabber.dot.mirror removeFromSuperview];
+}
+
++ (UIWindow *)tbGetKeyWindow {
+    if (@available(iOS 13.0, *)) {
+        NSArray *scenes=[[[UIApplication sharedApplication] connectedScenes] allObjects];
+        if (!scenes.count) {
+            return nil;
+        }
+        NSArray *windows= [scenes[0] windows];
+        UIWindow *result = nil;
+        for (UIWindow  *window in windows) {
+            if (window.isKeyWindow) {
+                result = window;
+                break;
+            }
+        }
+        return result;
+    }
+    return [UIApplication sharedApplication].keyWindow;;
 }
 
 @end

@@ -12,7 +12,7 @@
 #import "YYTextKeyboardManager.h"
 #import "YYTextUtilities.h"
 #import <objc/runtime.h>
-#import <TBBaseKit/TBBaseKitUtil.h>
+#import "YYTextEffectWindow.h"
 
 static int _YYTextKeyboardViewFrameObserverKey;
 
@@ -179,7 +179,7 @@ static int _YYTextKeyboardViewFrameObserverKey;
     for (window in app.windows) {
         if ([self _getKeyboardViewFromWindow:window]) return window;
     }
-    window = TBBaseKitUtil.tbGetKeyWindow;
+    window = [YYTextEffectWindow tbGetKeyWindow];
     if ([self _getKeyboardViewFromWindow:window]) return window;
     
     NSMutableArray *kbWindows = nil;
@@ -220,7 +220,7 @@ static int _YYTextKeyboardViewFrameObserverKey;
         view = [self _getKeyboardViewFromWindow:window];
         if (view) return view;
     }
-    window = TBBaseKitUtil.tbGetKeyWindow;
+    window = [YYTextEffectWindow tbGetKeyWindow];
     view = [self _getKeyboardViewFromWindow:window];
     if (view) return view;
     return nil;
@@ -406,7 +406,7 @@ static int _YYTextKeyboardViewFrameObserverKey;
     UIView *keyboard = self.keyboardView;
     UIWindow *window = keyboard.window;
     if (!window) {
-        window = TBBaseKitUtil.tbGetKeyWindow;
+        window = [YYTextEffectWindow tbGetKeyWindow];
     }
     if (!window) {
         window = app.windows.firstObject;
@@ -493,7 +493,7 @@ static int _YYTextKeyboardViewFrameObserverKey;
     if (CGRectIsNull(rect)) return rect;
     if (CGRectIsInfinite(rect)) return rect;
     
-    UIWindow *mainWindow = TBBaseKitUtil.tbGetKeyWindow;
+    UIWindow *mainWindow = [YYTextEffectWindow tbGetKeyWindow];
     if (!mainWindow) mainWindow = app.windows.firstObject;
     if (!mainWindow) { // no window ?!
         if (view) {

@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param selection A selection view.
 - (void)hideSelectionDot:(YYTextSelectionView *)selection;
 
++ (UIWindow *)tbGetKeyWindow;
 @end
 
 NS_ASSUME_NONNULL_END
